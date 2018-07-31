@@ -76,11 +76,12 @@ void IR_Sensor::callback_IR_Sensor(sensor_msgs::Range range_msg)
         double sensorVal = range_msg.range;
         long double tem_distance = sensorVal_to_distance(sensorVal)-initial_place;
         distance = DIS_DECAY * distance + (1 - DIS_DECAY)*tem_distance;
+
+       
+
         increaseRate = INC_DECAY*increaseRate+(1-INC_DECAY)*abs(distance-distance_old);
-         showDistance(); //This should be removed when using, because it is for testing.
-    };
-     //std::cout<<"SensorVal: "<< distance <<std::endl;
-    
+         //showDistance(); //[test] This should be removed when using, because it is for testing.
+    };  
 }
 
 
@@ -120,10 +121,22 @@ void IR_Sensor::callback_IR_Sensor_HF(std_msgs::Int16 range_msg)
         vec_addNew(sensorVal);
         distance = sensorVal_to_distance(sen_val_avr)-initial_place;
         increaseRate = INC_DECAY*increaseRate+(1-INC_DECAY)*abs(distance-distance_old);
-        showDistance(); //This should be removed when using, because it is for testing.
+
+         /*/[test] to test the delay caused by the filter
+        if ((distance/10000) >0.5 && ticFirstcall==0) 
+        {
+            tictoc1.tic();
+            ticFirstcall=1;
+            std::cout <<"--------" << std::endl; //[test]
+        };
+        if ((distance/10000) >1.5 && ticFirstcall==1)
+        {
+            tictoc1.toc();
+        };
+        /[test]end*/
+
+        //showDistance(); //This should be removed when using, because it is for testing.
     };
-     //std::cout<<"SensorVal: "<< distance <<std::endl;
-    
 }
 
 // Service server function, return the distance.
