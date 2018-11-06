@@ -6,7 +6,8 @@
 Please notice that this version has a line movement feature. Change 'LineMovementOn' into 1 to turn it on, and into 0 to turn it off.
 The program share the same radius with circle movement. The tip will move along x, y or z axis, with the mid point to be the center after
 ros is initiallized (please do not change the center when running), with the length to be double radius. The only two changes that can be made 
-is changing radius and speed. The moving axis can be changed in the constuctor of this class.
+is changing radius and speed. The moving axis can be changed in the constuctor of this class. The initial speed and radius can be changed in 
+'Raven_Controller.cpp' in member function init_sys().
 */
 
 #include <string>
@@ -54,7 +55,7 @@ is changing radius and speed. The moving axis can be changed in the constuctor o
 #define DEFAULT_MODIFICATION_SPEED_POWER  	0.7
 #define DEFAULT_MODIFICATION_DISTANCE_POWER  	1
 
-// Line movement start here
+// [Line movement] Line movement start here
 #define LineMovementOn 1 
 // This is the signal to turn on or off the line movement. 1 = on, 0 = off
 
@@ -65,6 +66,7 @@ is changing radius and speed. The moving axis can be changed in the constuctor o
 #define Li_X_AXIS 0
 #define Li_Y_AXIS 1
 #define Li_Z_AXIS 2
+// [Line movement] end here
 
 
 
@@ -119,9 +121,10 @@ class Raven_PathPlanner
 		tf::Vector3 AutoCircleMotion4();	// algorithm 4 : the best so far! (in use!!)	
 		tf::Vector3 TuneRadiusMotion();
 
-		//Line movement start here.
+		// [Line movement] Line movement start here.
 		int Li_Base_Plane;  // This is the line that the tip will follow, should be the x,y,z axis
 		tfScalar Li_Direction;  //This can only be 1, 0, -1, which denote for the forward or backward movement along the axis
+		// [Line movement] end here
 			
 
 	public:
@@ -156,7 +159,9 @@ class Raven_PathPlanner
 		tf::Transform ComputeCircleTrajectory();
 		tf::Transform ComputeNullTrajectory();
 
-// Line movement start here
-		tf::Transform ComputeLineTrajectory(); //This is the line version of 'ComputeCircleTrajectory()'
+// [Line movement] Line movement start here ,
+// Defined at 'Raven_PathPlanner.cpp' [line 1076]
+		tf::Transform ComputeLineTrajectory(); //This is the line version of 'ComputeCircleTrajectory()', the main part of line movement
+// [Line movement] end here
 };
 #endif

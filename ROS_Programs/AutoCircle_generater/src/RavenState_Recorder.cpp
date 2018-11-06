@@ -61,3 +61,32 @@ if(recorderOn){
     };
 };
 }
+
+
+// This is to record the IR sensor
+void recorder_IR(long double sensorValue)
+{
+if(recorderOn){
+    if(!recorder_firstCall)
+    {
+        startTime=ros::Time::now().toSec();
+
+        ravenState_writer.open(IRSensor_FilePath);
+        ravenState_writer<< 0 << ' ' <<sensorValue <<endl;
+        ravenState_writer.close();
+
+        recorder_firstCall=1;
+        ravenState_writer.open(IRSensor_FilePath, ios::app);
+    }
+    if(recorder_firstCall) {
+        double currTime = ros::Time::now().toSec();
+        double relateTime = currTime - startTime;
+
+        ravenState_writer << relateTime << ' ' <<sensorValue << endl;
+        ravenState_writer.flush();
+
+        if (!ros::ok()) ravenState_writer.close();
+    };
+};
+
+}

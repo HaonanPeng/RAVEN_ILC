@@ -23,6 +23,7 @@
 //This path should be changed when running on different computers.
 #define turtlePose_FilePath "/home/haonan/catkin_ws/src/antoCircleKinetic/recorderFiles/turtle_pose_recorder.txt"
 #define RavenJointPose_FilePath "/home/supernova/test_autocircle/src/AutoCircle_generater/recorderFiles/ravenJoint_pose_recorder.txt"
+#define IRSensor_FilePath "/home/haonan/catkin_ws/src/AutoCircle_generater/recorderFiles/IRSensor_recorder.txt"
 
 // This is to define the content of what the recorder will record.
 // This will make it easy to change the recorder content.
@@ -43,6 +44,7 @@ static double startTime;
 
 void recorder(turtlesim::Pose msg);
 void recorder(raven_2::raven_state msg);
+void recorder_IR(long double); 
 
 
 #endif //_RAVENSTATE_RECORDER_H

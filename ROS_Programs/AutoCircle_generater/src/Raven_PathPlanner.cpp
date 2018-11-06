@@ -26,7 +26,7 @@ Raven_PathPlanner::Raven_PathPlanner()
 	// Line movement start here
 	
 	Li_Base_Plane = Li_Y_AXIS; // This is the direction of movement.
-	Li_Direction = 1; // Defult movement is forward;
+	Li_Direction = -1; // Defult movement is backward;
 
 }
 
@@ -1072,7 +1072,7 @@ tf::Vector3 Raven_PathPlanner::TuneRadiusMotion()
 }
 
 
-
+// This is the main part of line movement. It is basically a mimic version of circle movement
 tf::Transform Raven_PathPlanner::ComputeLineTrajectory()
 {
 	tf::Transform TF_INCR;
@@ -1088,23 +1088,23 @@ tf::Transform Raven_PathPlanner::ComputeLineTrajectory()
 	{
 	case Li_X_AXIS:
 		del_Vector.setX(1);
-		if (Current_Pos.x() - Center.x() >= Radius)
+		if (Current_Pos.x() - Center.x() >= Radius) // if the tip is further than the radius, change the direction so that the tip will move back and forth
 			Li_Direction = -1;
-		if (Current_Pos.x() - Center.x() <= Radius)
+		if (Current_Pos.x() - Center.x() <= -Radius)
 			Li_Direction = 1;
 		break;
 	case Li_Y_AXIS:
 		del_Vector.setY(1);
 		if (Current_Pos.y() - Center.y() >= Radius)
 			Li_Direction = -1;
-		if (Current_Pos.y() - Center.y() <= Radius)
+		if (Current_Pos.y() - Center.y() <= -Radius)
 			Li_Direction = 1;
 		break;
 	case Li_Z_AXIS:
 		del_Vector.setZ(1);
 		if (Current_Pos.z() - Center.z() >= Radius)
 			Li_Direction = -1;
-		if (Current_Pos.z() - Center.z() <= Radius)
+		if (Current_Pos.z() - Center.z() <= -Radius)
 			Li_Direction = 1;
 		break;
 	}

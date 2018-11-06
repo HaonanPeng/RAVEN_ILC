@@ -57,7 +57,7 @@ void Raven_Controller::initial(int argc, char** argv)
 */
 void Raven_Controller::init_sys()  
 {
-	this->RADIUS = 1;
+	this->RADIUS = 5; //[Line movement] The origin defult radius is 1. However, for the line movement, this level is set to be 5 (1.5cm)
 	this->SPEED = 1;
 	this->DIRECTION = 1;
 	this-> BASE_PLANE =  YZ_PLANE;
@@ -158,11 +158,15 @@ void Raven_Controller::init_words()
 		cout<<"                  DIRECTION = "<<DIRECTION<<endl;
 		cout<<"                  BASE = Y-Z plane"<<endl<<endl;
 		cout<<"Please press \"Enter\" to start!";
+
+		// [Line movement] Line movement start here
+		cout << "[IMPORTANT!!!] Line movement is on, instead of circle. Please make sure you have read the instruction in RavenPlanner.h" << endl;
+		// [Line movement]end
+
 		cin.clear();
 		getline(std::cin,start);
 
-		// Line movement start here
-		cout << "[IMPORTANT!!!] Line movement is on, instead of circle. Please make sure you have read the instruction in RavenPlanner.h" << endl;
+		
 	}while(start!="");
 
 	cout<<"Auto Circle Generator starting..."<<endl;
@@ -518,11 +522,14 @@ void* Raven_Controller::ros_process(void)
 			{
 				// normal moving case
 				//TF_INCR[LEFT_ARM] = LEFT_PATH.ComputeNullTrajectory(); 
+
+				//[Line movement] start here
 				if (LineMovementOn)
 				{
 					TF_INCR[LEFT_ARM] = LEFT_PATH.ComputeLineTrajectory();
 					TF_INCR[RIGHT_ARM] = RIGHT_PATH.ComputeLineTrajectory();
 				}
+				// [Line movement] end
 				else
 				{
 					TF_INCR[LEFT_ARM] = LEFT_PATH.ComputeCircleTrajectory();
